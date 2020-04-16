@@ -87,4 +87,36 @@
       </footer>
     </div>
   </body>
+  <script type="text/javascript">
+    $(".submit").on("click", function (event) {
+      event.preventDefault();
+
+      var newReservation = {
+        customerName: $("#reserve-name").val().trim(),
+        phoneNumber: $("#reserve-phone").val().trim(),
+        customerEmail: $("#reserve-email").val().trim(),
+        customerID: $("#reserve-unique-id").val().trim(),
+      };
+
+      console.log(newReservation);
+
+      $.post("/api/tables", newReservation, function (data) {
+        // If a table is available... tell user they are booked.
+        if (data) {
+          alert("Your booking is confirmed.");
+        }
+
+        // If a table is available... tell user they on the waiting list.
+        else {
+          alert("Sorry. We have put you on the waiting list.");
+        }
+
+        // Clear the form when submitting
+        $("#reserve-name").val("");
+        $("#reserve-phone").val("");
+        $("#reserve-email").val("");
+        $("#reserve-unique-id").val("");
+      });
+    });
+  </script>
 </html>
